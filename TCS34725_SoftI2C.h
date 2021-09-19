@@ -114,15 +114,18 @@ class ColourSensor {
  public:
 		/*!
 		*  @brief Constructor.
-		*  @param tcs34725IntegrationTime_t  Integration time .
-		*  @param tcs34725Gain_t  gain.
+		*  @param uint8_t sclPin	pin for serial clock 
+		*  @param uint8_t sdaPin	pin for I2C data
+		*  @param tcs34725IntegrationTime_t  Sensor integration time
+		*  @param tcs34725Gain_t gain Sensor gain
 		*/
 ColourSensor(uint8_t sclPin, uint8_t sdaPin, TCS34725::IntegrationTime_t = 0xF8, TCS34725::Gain_t = TCS34725::GAIN_1X);
 		/*!
-		*  @brief Initializes SoftwareWire and configures the sensor (call this function beforedoing anything else).
-		*  @return  0  success.
+		*  @brief Initializes SoftwareWire and configures the sensor (call this function before doing anything else).
+		*  @return  true success.
 		*/
   boolean  begin(void);
+  
 		/*!
 		*  @brief Sets the integration time for the TC34725.
 		*  @param it  integration time.
@@ -150,34 +153,12 @@ ColourSensor(uint8_t sclPin, uint8_t sdaPin, TCS34725::IntegrationTime_t = 0xF8,
 		*/
   void determineColour(void);
   
-//		/*!
-//		*  @brief Reads the raw red, green, blue and clear channel values
-//		*  @param r  red.
-//		*  @param g  green.
-//		*  @param b  blue.
-//		*/
-//  void     getRGBC(uint16_t *r, uint16_t *g, uint16_t *b, uint16_t *c);
-//		/*!
-//		*  @brief Converts the raw R/G/B values to color temperature in degrees
-//		*  @param r  red.
-//		*  @param g  green.
-//		*  @param b  blue.
-//		*  @return  c.
-//		*/
-//  uint16_t calculateColorTemperature(uint16_t r, uint16_t g, uint16_t b);
-//		/*!
-//		*  @brief Converts the raw R/G/B values to lux
-//		*  @param r  red.
-//		*  @param g  green.
-//		*  @param b  blue.
-//		*  @return  lux.
-//		*/
-//  uint16_t calculateLux(uint16_t r, uint16_t g, uint16_t b);
-//		/*!
-//		*  @brief Writes a register and an 8 bit value over I2C
-//		*  @param reg register address .
-//		*  @param value  data.
-//		*/
+  
+		/*!
+		*  @brief Writes a register and an 8 bit value over I2C
+		*  @param reg register address .
+		*  @param value  data.
+		*/
   void     writeReg (uint8_t reg, uint32_t value);
 		/*!
 		*  @brief Reads an 8 bit value over I2C

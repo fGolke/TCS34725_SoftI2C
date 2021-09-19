@@ -31,111 +31,111 @@ namespace TCS34725{
 	
 	void ColourSensor::writeReg (uint8_t reg, uint32_t value)
 	{
-	softWire.beginTransmission(TCS34725_ADDRESS);
-	softWire.write(TCS34725_COMMAND_BIT | reg);
-	softWire.write(value & 0xFF);
-	softWire.endTransmission();
+		softWire.beginTransmission(TCS34725_ADDRESS);
+		softWire.write(TCS34725_COMMAND_BIT | reg);
+		softWire.write(value & 0xFF);
+		softWire.endTransmission();
 	}
 	
 	
 	uint8_t ColourSensor::readReg(uint8_t reg)
 	{
-	softWire.beginTransmission(TCS34725_ADDRESS);
-	softWire.write(TCS34725_COMMAND_BIT | reg);
-	softWire.endTransmission();
-	
-	softWire.requestFrom(TCS34725_ADDRESS, 1);
-	return softWire.read();
+		softWire.beginTransmission(TCS34725_ADDRESS);
+		softWire.write(TCS34725_COMMAND_BIT | reg);
+		softWire.endTransmission();
+		
+		softWire.requestFrom(TCS34725_ADDRESS, 1);
+		return softWire.read();
 	}
 	
 	
 	uint16_t ColourSensor::readRegWord(uint8_t reg)
 	{
-	uint16_t x; uint16_t t;
-	
-	softWire.beginTransmission(TCS34725_ADDRESS);
-	softWire.write(TCS34725_COMMAND_BIT | reg);
-	softWire.endTransmission();
-	
-	softWire.requestFrom(TCS34725_ADDRESS, 2);
-	t = softWire.read();
-	x = softWire.read();
-	x <<= 8;
-	x |= t;
-	return x;
+		uint16_t x; uint16_t t;
+		
+		softWire.beginTransmission(TCS34725_ADDRESS);
+		softWire.write(TCS34725_COMMAND_BIT | reg);
+		softWire.endTransmission();
+		
+		softWire.requestFrom(TCS34725_ADDRESS, 2);
+		t = softWire.read();
+		x = softWire.read();
+		x <<= 8;
+		x |= t;
+		return x;
 	}
 	
 	
 	void ColourSensor::enable(void)
 	{
-	writeReg(TCS34725_ENABLE, TCS34725_ENABLE_PON);
-	delay(3);
-	writeReg(TCS34725_ENABLE, TCS34725_ENABLE_PON | TCS34725_ENABLE_AEN);  
+		writeReg(TCS34725_ENABLE, TCS34725_ENABLE_PON);
+		delay(3);
+		writeReg(TCS34725_ENABLE, TCS34725_ENABLE_PON | TCS34725_ENABLE_AEN);  
 	}
 	
 	
 	void ColourSensor::disable(void)
 	{
-	/* Turn the device off to save power */
-	uint8_t reg = 0;
-	reg = readReg(TCS34725_ENABLE);
-	writeReg(TCS34725_ENABLE, reg & ~(TCS34725_ENABLE_PON | TCS34725_ENABLE_AEN));
+		/* Turn the device off to save power */
+		uint8_t reg = 0;
+		reg = readReg(TCS34725_ENABLE);
+		writeReg(TCS34725_ENABLE, reg & ~(TCS34725_ENABLE_PON | TCS34725_ENABLE_AEN));
 	}
 	
 	
 	
 	ColourSensor::ColourSensor(uint8_t sclPin, uint8_t sdaPin, IntegrationTime_t it, Gain_t gain) : softWire(sdaPin, sclPin)
 	{
-	_tcs34725_initialised = false;
-	_tcs34725_intTime = it;
-	_tcs34725_gain = gain;
+		_tcs34725_initialised = false;
+		_tcs34725_intTime = it;
+		_tcs34725_gain = gain;
 	}
 	
 	
 	boolean ColourSensor::begin(void) 
 	{
-	softWire.begin();
-	
-	/* Make sure we're actually connected */
-	uint8_t x = readReg(TCS34725_ID);
-	if ((x != 0x44) && (x != 0x10))
-	{
-		return false;
-	}
-	_tcs34725_initialised = true;
-	
-	/* Set default integration time and gain */
-	setIntegrationTime(_tcs34725_intTime);
-	setGain(_tcs34725_gain);
-	
-	/* Note: by default, the device is in power down mode on bootup */
-	enable();
-	
-	return true;
+		softWire.begin();
+		
+		/* Make sure we're actually connected */
+		uint8_t x = readReg(TCS34725_ID);
+		if ((x != 0x44) && (x != 0x10))
+		{
+			return false;
+		}
+		_tcs34725_initialised = true;
+		
+		/* Set default integration time and gain */
+		setIntegrationTime(_tcs34725_intTime);
+		setGain(_tcs34725_gain);
+		
+		/* Note: by default, the device is in power down mode on bootup */
+		enable();
+		
+		return true;
 	}
 	
 	
 	void ColourSensor::setIntegrationTime(TCS34725::IntegrationTime_t it)
 	{
-	if (!_tcs34725_initialised) begin();
-	
-	/* Update the timing register */
-	writeReg(TCS34725_ATIME, it);
-	
-	/* Update value placeholders */
-	_tcs34725_intTime = it;
+		if (!_tcs34725_initialised) begin();
+		
+		/* Update the timing register */
+		writeReg(TCS34725_ATIME, it);
+		
+		/* Update value placeholders */
+		_tcs34725_intTime = it;
 	}
 	
 	
 	void ColourSensor::setGain(TCS34725::Gain_t gain)
 	{
-	if (!_tcs34725_initialised) begin();
-	
-	/* Update the timing register */
-	writeReg(TCS34725_CONTROL, gain);
-	
-	/* Update value placeholders */
-	_tcs34725_gain = gain;
+		if (!_tcs34725_initialised) begin();
+		
+		/* Update the timing register */
+		writeReg(TCS34725_CONTROL, gain);
+		
+		/* Update value placeholders */
+		_tcs34725_gain = gain;
 	}
 	
 	void ColourSensor::read(){
