@@ -1,0 +1,48 @@
+#######################################
+# Syntax Coloring Map For TCS34725 SoftI2C
+####################################### 
+# Datatypes (KEYWORD1)
+#######################################
+#SoftwareWire	KEYWORD1
+
+TCS34725_SoftI2C KEYWORD1
+ColourSensor	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+#setPins	KEYWORD2
+#beginTransmission	KEYWORD2
+#write	KEYWORD2
+#requestFrom	KEYWORD2
+
+setIntegrationTime	KEYWORD2
+setGain	KEYWORD2
+get	KEYWORD2
+read	KEYWORD2
+determineColour	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+GAIN_1X	LITERAL1
+GAIN_4X	LITERAL1 
+GAIN_16X	LITERAL1
+GAIN_60X	LITERAL1
+
+T_2_4MS	LITERAL1
+T_24MS 	LITERAL1
+T_50MS 	LITERAL1
+T_101MS	LITERAL1
+T_154MS	LITERAL1
+T_700MS	LITERAL1
+
+PART_R	LITERAL1
+PART_G	LITERAL1
+PART_B	LITERAL1
+PART_C	LITERAL1
+
+REDNESS	LITERAL1
+GREENNESS	LITERAL1
+
